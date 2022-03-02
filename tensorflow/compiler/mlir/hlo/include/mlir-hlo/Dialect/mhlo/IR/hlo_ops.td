@@ -1842,7 +1842,7 @@ def HLO_ScatterOp: HLO_Op<"scatter", [RecursiveSideEffects]> {
   }];
   let arguments = (ins
     HLO_Tensor:$operand,
-    HLO_Tensor:$scatter_indices,
+    TensorOf<[AnyInteger, Index]>:$scatter_indices,
     HLO_Tensor:$updates,
     ScatterDimensionNumbers:$scatter_dimension_numbers,
     DefaultValuedAttr<BoolAttr, "false">:$indices_are_sorted,
@@ -1856,6 +1856,7 @@ def HLO_ScatterOp: HLO_Op<"scatter", [RecursiveSideEffects]> {
   let hasCustomHLOConverter = 1;
 
   let hasFolder = 1;
+  let hasVerifier = 1;
 }
 
 def HLO_SelectOp: HLO_Op<"select", [NoSideEffect, HLO_BroadcastingElementwise,
