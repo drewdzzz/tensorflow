@@ -2376,7 +2376,7 @@ def HLO_BitcastOp : HLO_Op<"bitcast", [NoSideEffect]> {
 }
 
 def HLO_ReducePrecisionOp :
-    HLO_Op<"reduce_precision", [SameOperandsAndResultShape]> {
+    HLO_Op<"reduce_precision", [SameOperandsAndResultType]> {
   let summary = "Reduce precision operator";
   let description = [{
     Models the effect of converting floating - point values to a lower -
@@ -2393,6 +2393,7 @@ def HLO_ReducePrecisionOp :
     I32Attr:$exponent_bits,
     I32Attr:$mantissa_bits
   );
+  let hasVerifier = 1;
   let results = (outs HLO_FpTensor:$output);
 }
 
