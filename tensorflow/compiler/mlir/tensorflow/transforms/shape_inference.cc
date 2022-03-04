@@ -1032,6 +1032,12 @@ struct DatasetInput {
 DatasetInput GetDatasetInput(Operation* op) {
   // TODO(haoliang): add an interface for DatasetOp to avoid the following
   // enumeration.
+
+  // Iteratively tracing upwards if parent op is `IdentityOp`.
+  while (auto identity = llvm::dyn_cast_or_null<IdentityOp>(op)) {
+    op = identity.input().getDefiningOp();
+  }
+
   if (!llvm::isa_and_nonnull<BatchDatasetV2Op, MapDatasetOp, RepeatDatasetOp,
                              ParallelMapDatasetOp, ParallelMapDatasetV2Op,
                              TakeDatasetOp>(op))
