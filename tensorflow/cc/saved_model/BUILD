@@ -152,10 +152,16 @@ cc_library(
     ],
 )
 
+package_group(
+    name = "loader_util_friends",
+    packages = ["//third_party/auroraml/mla"],
+)
+
 cc_library(
     name = "loader_util",
     srcs = ["loader_util.cc"],
     hdrs = ["loader_util.h"],
+    visibility = [":loader_util_friends"],
     deps = [":constants"] + if_not_mobile([
         "//tensorflow/core:lib",
         "//tensorflow/core:lib_internal",
