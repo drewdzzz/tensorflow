@@ -33,6 +33,7 @@ tfrt::gpu::wrapper::BlasDataType MlirTypeToBlasDataType(mlir::Type type) {
   if (type.isSignlessInteger(/*width=*/32)) return rocblas_datatype_i32_r;
 #else
   if (type.isF16()) return CUDA_R_16F;
+  if (type.isBF16()) return CUDA_R_16BF;
   if (type.isF32()) return CUDA_R_32F;
   if (type.isF64()) return CUDA_R_64F;
   if (auto complex_type = type.dyn_cast<mlir::ComplexType>()) {
@@ -164,6 +165,11 @@ mlir::Value MakeScalingFactorConstant(mlir::OpBuilder& builder,
                                       llvm::APFloat value_real,
                                       llvm::APFloat value_imaginary) {
   bool losesInfo = false;
+  if (type.isBF16()) {
+    value_real.convert(llvm::APFloat::BFloat(),
+                       llvm::RoundingMode::NearestTiesToEven, &losesInfo);
+    return builder.create<tfrt::compiler::ConstantBF16Op>(loc, value_real);
+  }
   if (type.isF32()) {
     value_real.convert(llvm::APFloat::IEEEsingle(),
                        llvm::RoundingMode::NearestTiesToEven, &losesInfo);
