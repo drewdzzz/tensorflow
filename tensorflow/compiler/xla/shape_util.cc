@@ -84,15 +84,7 @@ std::string ShapeIndex::ToString() const {
 }
 
 std::string ShapeIndexView::ToString() const {
-  return StrCat("{", absl::StrJoin(indices_, ","), "}");
-}
-
-bool ShapeIndexView::operator==(const ShapeIndexView& other) const {
-  return indices_ == other.indices_;
-}
-
-bool ShapeIndexView::operator!=(const ShapeIndexView& other) const {
-  return !(*this == other);
+  return StrCat("{", absl::StrJoin(*this, ","), "}");
 }
 
 std::ostream& operator<<(std::ostream& out, const ShapeIndex& shape_index) {
@@ -106,8 +98,7 @@ std::ostream& operator<<(std::ostream& out, const ShapeIndexView& shape_index) {
 }
 
 bool ShapeIndexView::StartsWith(ShapeIndexView prefix) const {
-  return size() >= prefix.size() &&
-         indices_.subspan(0, prefix.size()) == prefix.indices_;
+  return (size() >= prefix.size()) && (first(prefix.size()) == prefix);
 }
 
 /* static */ bool ShapeUtil::IsArrayPrimitiveType(
