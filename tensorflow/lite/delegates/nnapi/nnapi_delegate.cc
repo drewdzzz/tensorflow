@@ -6261,6 +6261,8 @@ StatefulNnApiDelegate::StatefulNnApiDelegate(
       delegate_data_(
           CreateNnApiFromSupportLibrary(nnapi_support_library_driver)) {
   StatefulNnApiDelegateConstructorImpl(options);
+  int i = 0;
+  i += 1;
 }
 
 StatefulNnApiDelegate::StatefulNnApiDelegate(const NnApi* nnapi,

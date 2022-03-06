@@ -36,7 +36,10 @@ StatefulNnApiDelegate::StatefulNnApiDelegate(const NnApi* /* nnapi */,
 StatefulNnApiDelegate::StatefulNnApiDelegate(
     const NnApiSLDriverImplFL5* /* nnapi_support_library_driver */,
     Options /* options */)
-    : StatefulNnApiDelegate() {}
+    : StatefulNnApiDelegate() {
+  int i = 0;
+  i += 1;
+}
 
 StatefulNnApiDelegate::StatefulNnApiDelegate()
     : TfLiteDelegate(TfLiteDelegateCreate()),
